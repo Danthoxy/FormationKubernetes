@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-with-probes
+spec:
+  selector:
+    matchLabels:
+      app: simple-with-probes
+  template:
+    metadata:
+      labels:
+        app: simple-with-probes
+    spec:
+      containers:
+      - name: simple-with-probes
+        image: debian
+        command:
+          - "bash -c touch /tmp/healthy; sleep 60; rm -rf /tmp/healthy"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        # livenessProbe:
+        readinessProbe:
+        # startupProbe:
+          # exec:
+          #   command:
+          #     - "cat /tmp/healthy"
+          # httpGet:
+          #   path: /healty
+          #   port: 3000
+          tcpSocket:
+            port: 3000
+          periodSeconds: 10
+          initialDelaySeconds: 10

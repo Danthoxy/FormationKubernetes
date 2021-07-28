@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mes-envs
+data:
+  mysqluser: root
+  mysqldatabase: data
+  

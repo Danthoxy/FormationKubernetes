@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-volume-simple
+spec:
+  selector:
+    matchLabels:
+      app: deployment-volume-simple
+  template:
+    metadata:
+      labels:
+        app: deployment-volume-simple
+    spec:
+      containers:
+      - name: deployment-volume-simple
+        image: alpine
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+          - name: data
+            mountPath: /data-container
+      volumes:
+        - name: data
+          # hostPath:
+          #   path: /data
+          #   type: DirectoryOrCreate 
+          persistentVolumeClaim:
+            claimName: mypvc
+            

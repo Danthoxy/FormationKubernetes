@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: correctionex1
+  labels:
+    name: replicaappweb
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      name: app-web
+  template:
+    metadata:
+      name: pod-web
+      labels:
+        name: app-web
+    spec:
+      containers:
+        - name: container-web
+          image: image-web
+          imagePullPolicy: 'IfNotPresent'
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+        - name: mysql
+          image: mysql
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: MYSQL_USER
+              value: root
+            - name: MYSQL_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: data
+  
